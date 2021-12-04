@@ -53,7 +53,7 @@ except:
         pass
     else:
         MAX_LENGTH = 512
-
+MAX_LENGTH = int(MAX_LENGTH)
 le = preprocessing.LabelEncoder()
 
 if dataFile:
