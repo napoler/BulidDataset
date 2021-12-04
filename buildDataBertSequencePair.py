@@ -46,8 +46,8 @@ if dataFile:
 print("数据集格式如下：")
 print(df)
 
-dataA = df["sent1"].squeeze().values.tolist()
-dataB = df["sent2"].squeeze().values.tolist()
+dataA = df["sent1"].squeeze().astype(str).values.tolist()
+dataB = df["sent2"].squeeze().astype(str).values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
 
 # 获取label标签

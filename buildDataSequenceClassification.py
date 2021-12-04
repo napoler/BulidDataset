@@ -36,7 +36,7 @@ if dataFile:
     df.drop_duplicates()
 print("数据集格式如下：")
 print(df)
-dataA = df.iloc[:, [0]].squeeze().values.tolist()
+dataA = df.iloc[:, [0]].squeeze().astype(str).values.tolist()
 dataB = df.iloc[:, [1]].squeeze().values.tolist()
 
 le.fit(dataB)
