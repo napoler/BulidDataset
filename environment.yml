@@ -1,0 +1,55 @@
+name: BulidDataset
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - _openmp_mutex=4.5=1_gnu
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2021.10.26=h06a4308_2
+  - certifi=2021.10.8=py37h06a4308_0
+  - ld_impl_linux-64=2.35.1=h7274673_9
+  - libedit=3.1.20210910=h7f8727e_0
+  - libffi=3.2.1=hf484d3e_1007
+  - libgcc-ng=9.3.0=h5101ec6_17
+  - libgomp=9.3.0=h5101ec6_17
+  - libstdcxx-ng=9.3.0=hd4cf53a_17
+  - libuuid=1.0.3=h7f8727e_2
+  - ncurses=6.3=h7f8727e_2
+  - openssl=1.0.2u=h7b6447c_0
+  - pip=21.2.2=py37h06a4308_0
+  - python=3.7.0=h6e4f718_3
+  - readline=7.0=h7b6447c_5
+  - setuptools=58.0.4=py37h06a4308_0
+  - sqlite=3.33.0=h62c20be_0
+  - tk=8.6.11=h1ccaba5_0
+  - tzdata=2021e=hda174b7_0
+  - wheel=0.37.0=pyhd3eb1b0_1
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+  - pip:
+      - charset-normalizer==2.0.9
+      - click==8.0.3
+      - filelock==3.4.0
+      - huggingface-hub==0.2.1
+      - idna==3.3
+      - importlib-metadata==4.8.2
+      - joblib==1.1.0
+      - numpy==1.21.4
+      - packaging==21.3
+      - pandas==1.1.5
+      - pyparsing==3.0.6
+      - python-dateutil==2.8.2
+      - pytz==2021.3
+      - pyyaml==6.0
+      - regex==2021.11.10
+      - requests==2.26.0
+      - sacremoses==0.0.46
+      - six==1.16.0
+      - tokenizers==0.10.3
+      - torch==1.10.0
+      - tqdm==4.62.3
+      - transformers==4.12.5
+      - typing-extensions==4.0.1
+      - urllib3==1.26.7
+      - zipp==3.6.0
+prefix: /mnt/data/dev/anaconda3/envs/BulidDataset
