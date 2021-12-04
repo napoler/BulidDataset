@@ -4,13 +4,14 @@
 Blog: https://terrychan.org
 # 说明：
 自动构建数据集 预处理使用
-
-Sentence-BERT模式数据集
+基本的LM数据集模式数据集
 数据参考示例
-dataDemo/Sentence-BERT.csv
+dataDemo/LM.csv
+
+数据集没有做mask，
+使用from tkitAutoMask import autoMask包来实现动态mask
 
 """
-
 import pandas as pd
 import torch
 from torch.utils.data import random_split, TensorDataset
@@ -22,26 +23,23 @@ path = "out"
 MAX_LENGTH = 128
 
 print("""
-Sentence-BERT模式数据集
+seq2seq模式数据集
 数据参考示例
-dataDemo/Sentence-BERT.csv
+dataDemo/LM.csv
 
 """)
 dataFile = input("数据集地址：")
 if dataFile:
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
-
+print("数据集格式如下：")
+print(df)
 dataA = df.iloc[:, [0]].squeeze().values.tolist()
-dataB = df.iloc[:, [1]].squeeze().values.tolist()
-labels = df.iloc[:, [2]].squeeze().values.tolist()
 
 inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
-inputsB = tokenizer(dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
-inputsLabels = torch.Tensor(labels)
+
 traindataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'],
-                             inputsB['input_ids'], inputsB['attention_mask'],
-                             inputsLabels
+
                              )
 
 fullLen = len(traindataset)

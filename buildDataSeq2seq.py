@@ -9,17 +9,16 @@ seq2seq模式数据集
 dataDemo/Seq2seq.csv
 
 """
-import os
 
 import pandas as pd
 import torch
 from torch.utils.data import random_split, TensorDataset
-from transformers import BertTokenizerFast
+
+from config import *
 
 # 输出目录
 path = "out"
 MAX_LENGTH = 128
-tokenizer = BertTokenizerFast.from_pretrained("uer/chinese_roberta_L-2_H-128")
 print("""
 seq2seq模式数据集
 数据参考示例
