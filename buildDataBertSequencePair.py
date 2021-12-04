@@ -4,10 +4,12 @@
 Blog: https://terrychan.org
 # 说明：
 自动构建数据集 预处理使用
-
-Sentence-BERT模式数据集
+buildDataBertSequencePair模式数据集
 数据参考示例
 dataDemo/Sentence-BERT.csv
+
+
+
 
 """
 import json
@@ -15,32 +17,35 @@ import os
 
 import pandas as pd
 import torch
+# https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
 from torch.utils.data import random_split, TensorDataset
 
 from config import *
 from libs.fun import NpEncoder
 
-# 输出目录
-path = "out"
-MAX_LENGTH = 128
-
 print("""
-Sentence-BERT模式数据集
+自动构建数据集 预处理使用
+buildDataBertSequencePair模式数据集
 数据参考示例
 dataDemo/Sentence-BERT.csv
 
 """)
+# 输出目录
+path = "out"
 dataFile = input("数据集地址：")
+MAX_LENGTH = input("数据最大长度：")
+MAX_LENGTH = int(MAX_LENGTH)
+
 le = preprocessing.LabelEncoder()
 
 if dataFile:
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
 
-# dataA = df.iloc[:, [0]].squeeze().values.tolist()
-# dataB = df.iloc[:, [1]].squeeze().values.tolist()
-# labels = df.iloc[:, [2]].squeeze().values.tolist()
+print("数据集格式如下：")
+print(df)
+
 dataA = df["sent1"].squeeze().values.tolist()
 dataB = df["sent2"].squeeze().values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
@@ -56,14 +61,14 @@ tgt = le.transform(dataLabel)
 print("labels", labels)
 print("labels len：", len(labels))
 
+# print(tgt)
+
+inputsA = tokenizer(dataA, dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 tgt = torch.Tensor(tgt)
 
-inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
-inputsB = tokenizer(dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
-inputsLabels = torch.Tensor(tgt)
-traindataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'],
-                             inputsB['input_ids'], inputsB['attention_mask'],
-                             inputsLabels
+# print(inputsA)
+traindataset = TensorDataset(inputsA['input_ids'], inputsA['token_type_ids'], inputsA['attention_mask'],
+                             tgt
                              )
 
 fullLen = len(traindataset)
@@ -77,11 +82,13 @@ try:
     os.makedirs(path)
 except:
     pass
+
 # 保存标签信息
 # print("labels",type(labels))
 with open(path + "/labels.json", 'w', encoding="utf-8") as f:
     # l=json.dumps(labels)
     json.dump(labels, f, ensure_ascii=False, cls=NpEncoder)
+
 torch.save(train, path + "/train.pkt")
 torch.save(val, path + "/val.pkt")
 torch.save(test, path + "/test.pkt")
