@@ -4,6 +4,8 @@
 
 包含lm，孪生，seq2seq，文本分类，示例参考dataDome目录下
 
+默认使用Bert 21128分词方案，如果想要修改自己的分词可以修改config下的词典方案。
+
 ## Getting Started
 
 Download links:
