@@ -40,8 +40,18 @@ dataDemo/Sentence-BERT.csv
 
 if len(sys.argv) > 1:
     dataFile = sys.argv[1]
+    MAX_LENGTH = sys.argv[2]
 else:
     dataFile = input("数据集地址：")
+
+try:
+    MAX_LENGTH = input("数据最大长度：")
+    MAX_LENGTH = int(MAX_LENGTH)
+except:
+    if MAX_LENGTH > 0:
+        pass
+    else:
+        MAX_LENGTH = 512
 
 le = preprocessing.LabelEncoder()
 
