@@ -14,6 +14,7 @@ dataDemo/Sentence-BERT.csv
 """
 import json
 import os
+import sys
 
 import pandas as pd
 import torch
@@ -33,9 +34,16 @@ dataDemo/Sentence-BERT.csv
 """)
 # 输出目录
 path = "out"
-dataFile = input("数据集地址：")
-MAX_LENGTH = input("数据最大长度：")
-MAX_LENGTH = int(MAX_LENGTH)
+if len(sys.argv) > 1:
+    dataFile = sys.argv[1]
+else:
+    dataFile = input("数据集地址：")
+
+try:
+    MAX_LENGTH = input("数据最大长度：")
+    MAX_LENGTH = int(MAX_LENGTH)
+except:
+    MAX_LENGTH = 512
 
 le = preprocessing.LabelEncoder()
 

@@ -12,6 +12,7 @@ dataDemo/Sentence-BERT.csv
 """
 import json
 import os
+import sys
 
 import pandas as pd
 import torch
@@ -30,11 +31,22 @@ Sentence-BERT模式数据集
 数据参考示例
 dataDemo/Sentence-BERT.csv
 
+支持传入参数 类似
+
+> python buildDataSentence-BERT.py out/train.csv
+
+
 """)
-dataFile = input("数据集地址：")
+
+if len(sys.argv) > 1:
+    dataFile = sys.argv[1]
+else:
+    dataFile = input("数据集地址：")
+
 le = preprocessing.LabelEncoder()
 
 if dataFile:
+    print("dataFile", dataFile)
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
     # remove null data

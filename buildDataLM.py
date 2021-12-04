@@ -12,6 +12,8 @@ dataDemo/LM.csv
 使用from tkitAutoMask import autoMask包来实现动态mask
 
 """
+import sys
+
 import pandas as pd
 import torch
 from torch.utils.data import random_split, TensorDataset
@@ -28,7 +30,11 @@ seq2seq模式数据集
 dataDemo/LM.csv
 
 """)
-dataFile = input("数据集地址：")
+if len(sys.argv) > 1:
+    dataFile = sys.argv[1]
+else:
+    dataFile = input("数据集地址：")
+
 if dataFile:
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
