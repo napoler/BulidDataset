@@ -37,12 +37,15 @@ le = preprocessing.LabelEncoder()
 if dataFile:
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
+    # remove null data
+    # 删除表中含有任何NaN的行
+    df.dropna(axis=0, how='all')
 
 # dataA = df.iloc[:, [0]].squeeze().values.tolist()
 # dataB = df.iloc[:, [1]].squeeze().values.tolist()
 # labels = df.iloc[:, [2]].squeeze().values.tolist()
-dataA = df["sent1"].squeeze().values.tolist()
-dataB = df["sent2"].squeeze().values.tolist()
+dataA = df["sent1"].squeeze().astype(str).values.tolist()
+dataB = df["sent2"].squeeze().astype(str).values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
 
 # 获取label标签
@@ -57,6 +60,9 @@ print("labels", labels)
 print("labels len：", len(labels))
 
 tgt = torch.Tensor(tgt)
+
+print("inputsA", len(dataA))
+print("dataB", len(dataB))
 
 inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 inputsB = tokenizer(dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
