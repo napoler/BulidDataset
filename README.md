@@ -1,6 +1,8 @@
 # yuxunlianlm-bert/BulidDataset
 
-构建数据集
+数据集预处理
+
+包含lm，孪生，seq2seq，文本分类，示例参考dataDome目录下
 
 ## Getting Started
 
