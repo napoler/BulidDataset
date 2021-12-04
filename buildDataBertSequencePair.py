@@ -41,13 +41,15 @@ else:
     dataFile = input("数据集地址：")
 
 try:
-    MAX_LENGTH = input("数据最大长度：")
-    MAX_LENGTH = int(MAX_LENGTH)
+    if MAX_LENGTH is None:
+        MAX_LENGTH = input("数据最大长度：")
+        MAX_LENGTH = int(MAX_LENGTH)
 except:
     if MAX_LENGTH > 0:
         pass
     else:
         MAX_LENGTH = 512
+MAX_LENGTH = int(MAX_LENGTH)
 
 le = preprocessing.LabelEncoder()
 
