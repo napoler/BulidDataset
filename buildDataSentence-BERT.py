@@ -45,7 +45,7 @@ else:
     dataFile = input("数据集地址：")
 
 try:
-    if MAX_LENGTH is not None:
+    if MAX_LENGTH is None:
         MAX_LENGTH = input("数据最大长度：")
         MAX_LENGTH = int(MAX_LENGTH)
 except:
