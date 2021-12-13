@@ -41,7 +41,7 @@ if dataFile:
 print("数据集格式如下：")
 print(df)
 dataA = df.iloc[:, [0]].squeeze().astype(str).values.tolist()
-dataB = df.iloc[:, [1]].squeeze().values.tolist()
+dataB = df.iloc[:, [1]].squeeze().astype(str).values.tolist()
 
 le.fit(dataB)
 labels = list(le.classes_)
