@@ -70,7 +70,7 @@ if dataFile:
 dataA = df["sent1"].squeeze().astype(str).values.tolist()
 dataB = df["sent2"].squeeze().astype(str).values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
-
+# print(dataLabel)
 # 获取label标签
 le.fit(dataLabel)
 print(le.classes_)
@@ -90,6 +90,8 @@ print("dataB", len(dataB))
 inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 inputsB = tokenizer(dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 inputsLabels = torch.Tensor(tgt)
+
+# print(inputsA['input_ids'].size())
 traindataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'],
                              inputsB['input_ids'], inputsB['attention_mask'],
                              inputsLabels
