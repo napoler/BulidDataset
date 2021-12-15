@@ -28,7 +28,7 @@ from libs.fun import NpEncoder
 tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True)
 print("""
 自动构建数据集 预处理使用
-BIO模式数据集
+BIEO模式数据集
 数据参考示例
 dataDemo/label-studio-ner.json
 
