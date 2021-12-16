@@ -1,0 +1,166 @@
+[
+  {
+    "id": 1988,
+    "annotations": [
+      {
+        "id": 889,
+        "completed_by": {
+          "id": 1,
+          "email": "napoler2008@gmail.com",
+          "first_name": "",
+          "last_name": ""
+        },
+        "result": [
+          {
+            "value": {
+              "start": 11,
+              "end": 16,
+              "text": "王陵 魅影",
+              "labels": [
+                "实体"
+              ]
+            },
+            "id": "Xu4PLCCJAJ",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          },
+          {
+            "value": {
+              "start": 25,
+              "end": 33,
+              "text": " 17 k小说网",
+              "labels": [
+                "实体"
+              ]
+            },
+            "id": "4ArJ7bIX9e",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          },
+          {
+            "value": {
+              "start": 21,
+              "end": 25,
+              "text": "连载 于",
+              "labels": [
+                "关系"
+              ]
+            },
+            "id": "EaWMvn9EOn",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          },
+          {
+            "from_id": "4ArJ7bIX9e",
+            "to_id": "EaWMvn9EOn",
+            "type": "relation",
+            "direction": "right",
+            "labels": []
+          },
+          {
+            "from_id": "EaWMvn9EOn",
+            "to_id": "Xu4PLCCJAJ",
+            "type": "relation",
+            "direction": "right",
+            "labels": []
+          }
+        ],
+        "was_cancelled": false,
+        "ground_truth": false,
+        "created_at": "2021-11-10T14:12:56.625255Z",
+        "updated_at": "2021-11-10T14:14:03.223066Z",
+        "lead_time": 408.499,
+        "prediction": {},
+        "result_count": 0,
+        "task": 1988
+      }
+    ],
+    "predictions": [],
+    "file_upload": "test_new_5.txt",
+    "data": {
+      "text": "预测1：[CLS] <王陵 魅影 > 是 连载 于 17 k小说网 的 网部 玄墓小险类 小说,作者 是 皇甫 龙悦 [SEP]                                                                                                                                                                                          "
+    },
+    "meta": {},
+    "created_at": "2021-11-10T14:07:33.275200Z",
+    "updated_at": "2021-11-10T14:14:03.201220Z",
+    "project": 10
+  },
+  {
+    "id": 1987,
+    "annotations": [
+      {
+        "id": 890,
+        "completed_by": {
+          "id": 1,
+          "email": "napoler2008@gmail.com",
+          "first_name": "",
+          "last_name": ""
+        },
+        "result": [
+          {
+            "value": {
+              "start": 11,
+              "end": 16,
+              "text": " 魅影,作",
+              "labels": [
+                "实体"
+              ]
+            },
+            "id": "5qhLdfmZf9",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          },
+          {
+            "value": {
+              "start": 24,
+              "end": 33,
+              "text": "悦 [ sep]王",
+              "labels": [
+                "实体"
+              ]
+            },
+            "id": "Bl6Skurskl",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          },
+          {
+            "value": {
+              "start": 47,
+              "end": 54,
+              "text": " 17 k小说",
+              "labels": [
+                "实体"
+              ]
+            },
+            "id": "7RxPXv_24e",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels"
+          }
+        ],
+        "was_cancelled": false,
+        "ground_truth": false,
+        "created_at": "2021-12-14T13:39:02.638124Z",
+        "updated_at": "2021-12-14T13:39:02.638157Z",
+        "lead_time": 16.72,
+        "prediction": {},
+        "result_count": 0,
+        "task": 1987
+      }
+    ],
+    "predictions": [],
+    "file_upload": "test_new_5.txt",
+    "data": {
+      "text": "原文：[CLS] 王陵 魅影,作者 , 皇甫 龙悦 [ sep]王陵 魅影 , 连载 网站 , 17 k小说网 [SEP]                                                                                                                                                                                                "
+    },
+    "meta": {},
+    "created_at": "2021-11-10T14:07:33.275106Z",
+    "updated_at": "2021-11-10T14:07:33.275137Z",
+    "project": 10
+  }
+]

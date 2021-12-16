@@ -30,8 +30,8 @@ if dataFile:
     df = pd.read_csv(dataFile)
     df.drop_duplicates()
 
-dataA = df.iloc[:, [0]].squeeze().values.tolist()
-dataB = df.iloc[:, [1]].squeeze().values.tolist()
+dataA = df.iloc[:, [0]].squeeze().astype(str).values.tolist()
+dataB = df.iloc[:, [1]].squeeze().astype(str).values.tolist()
 # labels=df.iloc[:,[2]].squeeze().values.tolist()
 
 
