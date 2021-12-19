@@ -4,7 +4,9 @@
 Blog: https://terrychan.org
 # 说明：
 bio数据集
+构建bio数据集，用于Ner任务使用。
 
+可以自动修正不存在词典中的数据问题
 """
 # from transformers import BertTokenizerFast
 import json
