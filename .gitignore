@@ -3,3 +3,4 @@ data/model/*
 out/*
 lightning_logs/*
 data/*.pkt
+/tkitDatasetEx/out/

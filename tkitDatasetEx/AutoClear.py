@@ -12,13 +12,14 @@ class AutoClear:
 
     """
 
-    def __init__(self, seg=None, tokenizer=None):
-        if seg == None:
+    def __init__(self, seg=None, tokenizer=None, do_seg=False):
+        if seg == None and do_seg == True:
             import pkuseg
             self.seg = pkuseg.pkuseg(model_name='medicine')  # 程序会自动下载所对应的细领域模型
 
-        else:
+        elif do_seg == True:
             self.seg = seg
+
         if tokenizer == None:
             self.tokenizer = BertTokenizer.from_pretrained(
                 "uer/chinese_roberta_L-8_H-512", do_basic_tokenize=False)
@@ -27,6 +28,7 @@ class AutoClear:
             self.tokenizer = tokenizer
 
         pass
+        self.unk_vocab = []
 
         self.vocab = list(self.tokenizer.vocab)
 
@@ -69,11 +71,14 @@ class AutoClear:
             "\t", "س").replace("\n", "ة").replace("\r", "ت")
         words = list(text)
         # print(list(self.tokenizer.vocab))
-
+        # 自动清理词典无法解析的字符为空格
         for i, w in enumerate(words):
             # nw = self.tokenizer.vocab.get(w)
-            if w not in self.vocab:
+            if w in self.unk_vocab:
                 words[i] = "ر"
+            elif w not in self.vocab:
+                words[i] = "ر"
+                self.unk_vocab.append(w)
             # print(w, nw)
             # if w == "\n":
             #     text_or = text_or.replace(w, "")
