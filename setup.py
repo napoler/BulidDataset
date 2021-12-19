@@ -54,7 +54,7 @@ def read_requirements(filename):
 
 
 try:
-    long_description = read_file("README.md")
+    long_description = read_file("tkitDatasetEx.md")
 except:
     long_description = ""
 setup(
