@@ -19,7 +19,7 @@ version = '0.0.0.1' + str(time.time())[:8]
 description = 'Terry toolkit tkitDatasetEx 构建数据集过程中的方便,'
 author = 'Terry Chan'
 author_email = 'napoler2008@gmail.com'
-url = 'https://terrychan.org'
+url = 'https://github.com/napoler/BulidDataset/blob/main/tkitDatasetEx.md'
 
 copyright = '2021, Terry Chan'
 language = 'zh_cn'
