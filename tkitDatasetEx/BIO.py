@@ -18,12 +18,16 @@ from fun import NpEncoder
 
 
 class BIO:
-    def __init__(self, type="BIO", out_dir="out", clear=True, tokenizer=None):
+    def __init__(self, type="BIEO", out_dir="out", clear=True, tokenizer=None, add_cls=True, padding=True, max_len=128):
         """
-
 
         :param type:
         :param out_dir:
+        :param clear:
+        :param tokenizer:
+        :param add_cls:
+        :param padding:
+        :param max_len:
         """
         self.type = type
         self.entity_dict = {}
@@ -31,6 +35,9 @@ class BIO:
         self.clear = clear
         self.items = {"words": [], "tags": []}
         self.le = preprocessing.LabelEncoder()
+        self.add_cls = add_cls
+        self.padding = padding
+        self.max_len = max_len
         try:
             os.mkdir(self.out_dir)
         except:
@@ -114,7 +121,10 @@ class BIO:
 
             else:
                 text = item['text']
-            tags = ["O"] * len(text)
+            if self.padding == True:
+                tags = ["O"] * self.max_len
+            else:
+                tags = ["O"] * (len(text) + 1)
             # print(tags)
             for i, iit in enumerate(item['result']):
                 print(i, iit)
@@ -124,12 +134,22 @@ class BIO:
                     except:
                         self.entity_dict[iit['value']['labels'][0]] = 1
                     for iii in range(iit['value']['start'], iit['value']['end']):
-                        if iii == iit['value']['start']:
-                            tags[iii + 1] = "B-" + iit['value']['labels'][0]
-                        elif iii == iit['value']['end'] - 1:
-                            tags[iii + 1] = "E-" + iit['value']['labels'][0]
+
+                        if self.add_cls:
+                            # 自动添加cls
+                            if iii == iit['value']['start']:
+                                tags[iii + 1] = "B-" + iit['value']['labels'][0]
+                            elif iii == iit['value']['end'] - 1:
+                                tags[iii + 1] = "E-" + iit['value']['labels'][0]
+                            else:
+                                tags[iii + 1] = "I-" + iit['value']['labels'][0]
                         else:
-                            tags[iii + 1] = "I-" + iit['value']['labels'][0]
+                            if iii == iit['value']['start']:
+                                tags[iii] = "B-" + iit['value']['labels'][0]
+                            elif iii == iit['value']['end'] - 1:
+                                tags[iii] = "E-" + iit['value']['labels'][0]
+                            else:
+                                tags[iii] = "I-" + iit['value']['labels'][0]
             # print(tags)
             WordList = self.apos.clearTextDec(list(text))
             # print(WordList)
@@ -186,6 +206,11 @@ class BIO:
 
 
 if __name__ == '__main__':
+    """
+    
+    测试保存数据
+    
+    """
     bio = BIO()
     item = {"text": "预测1：[CLS] <王陵 魅影 > 是 连载 于 17 k小说网 的 网部 玄墓小险类 小说,作者 是 皇甫 龙悦 [SEP]",
             "result": [
