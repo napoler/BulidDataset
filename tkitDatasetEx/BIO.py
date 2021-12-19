@@ -22,6 +22,9 @@ from fun import NpEncoder
 class BIO:
     def __init__(self, type="BIEO", out_dir="out", clear=True, tokenizer=None, add_cls=True, padding=True, max_len=128):
         """
+        自动处理label-studio-ner数据集
+
+
 
         :param type:
         :param out_dir:
@@ -50,6 +53,7 @@ class BIO:
 
     def encode(self, items=[]):
         """
+        自动处理数据，数据格式如下
         items=[{"text": "预测1：[CLS] <王陵 魅影 > 是 连载 于 17 k小说网 的 网部 玄墓小险类 小说,作者 是 皇甫 龙悦 [SEP]",
             "result": [
           {
@@ -168,6 +172,11 @@ class BIO:
         return out_items
 
     def bulid_labels(self):
+        """
+
+        构建词典BIO格式词典
+        :return:
+        """
 
         tags = []
         for item in self.items['tags']:
@@ -179,6 +188,12 @@ class BIO:
         self.labels = list(self.le.classes_)
 
     def fit(self):
+        """
+        使用词典编码对应的tags数据，
+        保存在 self.items['tags_ids']中
+
+        :return:
+        """
 
         for i, item in enumerate(self.items['tags']):
             # tags.extend(item)
@@ -188,6 +203,16 @@ class BIO:
         pass
 
     def save(self):
+        """
+        保存数据
+        包含三个文件：
+        datas.json:
+        entities.json:
+        labels.json:
+
+
+        :return:
+        """
         with open(os.path.join(self.out_dir, "entity_dict.json"), 'w', encoding="utf-8") as f:
             # json.dump(datas, f, ensure_ascii=False, indent=4, cls=NpEncoder)
             json.dump(self.entity_dict, f, ensure_ascii=False, indent=4, cls=NpEncoder)
