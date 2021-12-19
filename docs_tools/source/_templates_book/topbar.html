@@ -1,0 +1,35 @@
+<div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        {% if theme_single_page != True %}
+        <button aria-controls="navbar-menu" aria-controls="site-navigation" aria-expanded="true"
+                aria-label="{{ translate('Toggle navigation') }}"
+                class="navbar-toggler ml-0" data-placement="bottom" data-placement="left" data-target=".site-navigation"
+                data-toggle="collapse" data-toggle="tooltip" data-toggle="tooltip"
+                id="navbar-toggler" title="{{ translate('Toggle navigation') }}" type="button">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        {% endif %}
+        {% include "topbar/download.html" %}
+        {% include "topbar/repobuttons.html" %}
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button">
+            <button aria-label="{{ translate('Fullscreen mode') }}" class="btn btn-secondary topbarbtn"
+                    data-placement="bottom"
+                    data-toggle="tooltip" onclick="toggleFullScreen()" title="{{ translate('Fullscreen mode') }}"
+                    type="button"><i
+                    class="fas fa-expand"></i></button>
+        </a>
+
+        {% include "topbar/launchbuttons.html" %}
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        {{ generate_toc_html() }}
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="{{ pathto('index') }}">
+        {% if logo %}
+        <img alt="logo" class="logo" src="{{ pathto('_static/' + logo, 1) }}">
+        {% endif %}
+        {% if docstitle %}
+        <h1 class="site-logo" id="site-title">{{ docstitle }}</h1>
+        {% endif %}
+    </a>
+</div>
+
+
+{%- for sidebartemplate in sidebars %}
+{%- include sidebartemplate %}
+{%- endfor %}
