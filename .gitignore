@@ -5,3 +5,4 @@ lightning_logs/*
 data/*.pkt
 /tkitDatasetEx/out/
 tkitDatasetEx/__pycache__/
+/__pycache__/
