@@ -1,0 +1,26 @@
+name: Pages
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+      - name: Build and Commit
+        run: |
+          cd docs_tools
+          bash autodocs.sh
+          pwd
+          ls ../docs
+          cd ../
+
+
+      - name: Push changes
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

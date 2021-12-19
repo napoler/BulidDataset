@@ -1,8 +1,6 @@
 import re
-import unicodedata
-from transformers import BertTokenizerFast
 
-import unicodedata
+from transformers import BertTokenizer
 
 
 class AutoClear:
@@ -10,11 +8,27 @@ class AutoClear:
 
     用于清理空格等等数据
 
+
+
     """
 
     def __init__(self, seg=None, tokenizer=None):
+        if seg == None:
+            import pkuseg
+            self.seg = pkuseg.pkuseg(model_name='medicine')  # 程序会自动下载所对应的细领域模型
+
+        else:
+            self.seg = seg
+        if tokenizer == None:
+            self.tokenizer = BertTokenizer.from_pretrained(
+                "uer/chinese_roberta_L-8_H-512", do_basic_tokenize=False)
+
+        else:
+            self.tokenizer = tokenizer
 
         pass
+
+        self.vocab = list(self.tokenizer.vocab)
 
     def filterPunctuation(self, x):
         """[summary]
@@ -43,15 +57,28 @@ class AutoClear:
     def clearText(self, text):
         """
         清理文本中的回车等
+        会自动清理词典无法解析的字符为空格
         """
         text_or = text.lower()
         # 中文标点转换英文
         # text_or=unicodedata.normalize('NFKD',text_or)
         text_or = self.filterPunctuation(text_or)
+
         # 使用tab替换空格
-        text = text_or.replace(" ", "ر").replace(
+        text = text_or.replace("\xa0", "ر").replace("\ufeff", "ر").replace("\u3000", "ر").replace(" ", "ر").replace(
             "\t", "س").replace("\n", "ة").replace("\r", "ت")
-        return text
+        words = list(text)
+        # print(list(self.tokenizer.vocab))
+
+        for i, w in enumerate(words):
+            # nw = self.tokenizer.vocab.get(w)
+            if w not in self.vocab:
+                words[i] = "ر"
+            # print(w, nw)
+            # if w == "\n":
+            #     text_or = text_or.replace(w, "")
+        # print(text)
+        return "".join(words)
 
     def clearTextDec(self, seg_list):
         """
