@@ -15,8 +15,8 @@ import os
 # https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
 
-from AutoClear import AutoClear
-from fun import NpEncoder
+from .AutoClear import AutoClear
+from .fun import NpEncoder
 
 
 class BIO:
