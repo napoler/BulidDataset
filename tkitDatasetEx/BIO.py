@@ -19,6 +19,7 @@ from .AutoClear import AutoClear
 from .fun import NpEncoder
 
 
+# test
 class BIO:
     def __init__(self, type="BIEO", out_dir="out", clear=True, tokenizer=None, add_cls=True, padding=True, max_len=128):
         """
