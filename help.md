@@ -14,3 +14,6 @@ or
 > pip freeze>  requirements.txt
 
 > conda install --yes --file requirements.txt
+> 
+> 
+> conda activate  BulidDataset
