@@ -91,7 +91,7 @@ def one(item):
         # print(i, iit)
 
         for iii in range(iit['start'], iit['end']):
-            if iii > MAX_LENGTH + 1 or iit['start'] > MAX_LENGTH or iit['end'] > MAX_LENGTH:
+            if iii > MAX_LENGTH + 1 or iit['start'] > MAX_LENGTH:
                 continue
             # print(iii,iit)
             try:
