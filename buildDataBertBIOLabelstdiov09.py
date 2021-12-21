@@ -87,7 +87,9 @@ def one(item):
     # tags = ["O"] * len(text)
     tags = ["O"] * MAX_LENGTH
     # print(it['result'])
-    for i, iit in enumerate(it['label']):
+    if it.get('label') ==None:
+        return [],[]
+    for i, iit in enumerate(it.get('label')):
         # print(i, iit)
 
         for iii in range(iit['start'], iit['end']):
@@ -115,8 +117,9 @@ if dataFile:
     for i, it in enumerate(readDir(dataFile)):
         # print(it)
         words, tags = one(it)
-        datas['words'].append(words)
-        datas['tags'].append(tags)
+        if len(words) and len(tags)>0:
+            datas['words'].append(words)
+            datas['tags'].append(tags)
         # print(words,tags)
         # break
 
