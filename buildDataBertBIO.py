@@ -95,7 +95,7 @@ def one(item):
 
     # print(tags)
     words = list(text)
-    WordList = apos.clearTextDec(words)
+    words = apos.clearTextDec(words)
     # for i, (w, t) in enumerate(zip(words, tags)):
     #     # print(w,t)
     #     if w in [" ", "\t"]:

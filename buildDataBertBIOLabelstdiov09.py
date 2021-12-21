@@ -102,7 +102,7 @@ def one(item):
 
     # print(tags)
     words = list(text)
-    WordList = apos.clearTextDec(words)
+    words = apos.clearTextDec(words)
     return words, tags
 
 
