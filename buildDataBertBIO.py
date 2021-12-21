@@ -22,10 +22,11 @@ import torch
 from sklearn import preprocessing
 from torch.utils.data import TensorDataset, random_split
 from transformers import BertTokenizerFast
-
+from tkitDatasetEx.AutoClear import AutoClear
 from tkitDatasetEx.fun import NpEncoder
 
-tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True)
+tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True,model_max_length=1000000,)
+apos = AutoClear(tokenizer=tokenizer)
 print("""
 自动构建数据集 预处理使用
 BIEO模式数据集
@@ -76,6 +77,7 @@ def one(item):
     # print(item.keys())
     # print(item['data']['text'])
     text = item['data']['text']
+    text = apos.clearText(text)
     # tags = ["O"] * len(text)
     tags = ["O"] * MAX_LENGTH
     for it in item["annotations"]:
@@ -93,12 +95,13 @@ def one(item):
 
     # print(tags)
     words = list(text)
-    for i, (w, t) in enumerate(zip(words, tags)):
-        # print(w,t)
-        if w in [" ", "\t"]:
-            words[i] = "[PAD]"
-        elif w in ["\n", "\r"]:
-            words[i] = "[SEP]"
+    WordList = apos.clearTextDec(words)
+    # for i, (w, t) in enumerate(zip(words, tags)):
+    #     # print(w,t)
+    #     if w in [" ", "\t"]:
+    #         words[i] = "[PAD]"
+    #     elif w in ["\n", "\r"]:
+    #         words[i] = "[SEP]"
 
     return words, tags
 
