@@ -25,7 +25,8 @@ from transformers import BertTokenizerFast
 from tkitDatasetEx.fun import NpEncoder
 from tkitDatasetEx.AutoClear import AutoClear
 from tkitDatasetEx.readData import readDir
-tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True,model_max_length=1000000,)
+
+tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True, model_max_length=1000000, )
 
 print("tokenizer", tokenizer)
 
@@ -90,7 +91,7 @@ def one(item):
         # print(i, iit)
 
         for iii in range(iit['start'], iit['end']):
-            if iii>MAX_LENGTH+1 or iit['start'] > MAX_LENGTH or iit['end']> iit["end"] :
+            if iii > MAX_LENGTH + 1 or iit['start'] > MAX_LENGTH or iit['end'] > MAX_LENGTH:
                 continue
             # print(iii,iit)
             try:
@@ -117,7 +118,7 @@ if dataFile:
         datas['words'].append(words)
         datas['tags'].append(tags)
         # print(words,tags)
-            # break
+        # break
 
 # print(datas)
 
