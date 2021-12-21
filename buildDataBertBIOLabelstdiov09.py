@@ -93,13 +93,16 @@ def one(item):
             if iii>MAX_LENGTH+1 or iit['start'] > MAX_LENGTH or iit['end']> iit["end"] :
                 continue
             # print(iii,iit)
-            if iii == iit['start']:
-                tags[iii + 1] = "B-" + iit['labels'][0]
-            elif iii == iit['end'] - 1:
-                tags[iii + 1] = "E-" + iit['labels'][0]
-            else:
-                tags[iii + 1] = "I-" + iit['labels'][0]
-
+            try:
+                if iii == iit['start']:
+                    tags[iii + 1] = "B-" + iit['labels'][0]
+                elif iii == iit['end'] - 1:
+                    tags[iii + 1] = "E-" + iit['labels'][0]
+                else:
+                    tags[iii + 1] = "I-" + iit['labels'][0]
+            except:
+                print(" error pass")
+                pass
     # print(tags)
     words = list(text)
     words = apos.clearTextDec(words)
