@@ -20,10 +20,10 @@ import pandas as pd
 import torch
 # https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
-from torch.utils.data import random_split, TensorDataset
+from torch.utils.data import TensorDataset, random_split
 
 from config import *
-from libs.fun import NpEncoder
+from tkitDatasetEx.fun import NpEncoder
 
 print("""
 自动构建数据集 预处理使用

@@ -20,10 +20,10 @@ import numpy
 import torch
 # https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
-from torch.utils.data import random_split, TensorDataset
+from torch.utils.data import TensorDataset, random_split
 from transformers import BertTokenizerFast
 
-from libs.fun import NpEncoder
+from tkitDatasetEx.fun import NpEncoder
 
 tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True)
 print("""

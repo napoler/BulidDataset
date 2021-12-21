@@ -1,0 +1,272 @@
+{# TEMPLATE VAR SETTINGS #}
+{%- set url_root = pathto('', 1) %}
+{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
+{%- if not embedded and docstitle %}
+{%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
+{%- else %}
+{%- set titlesuffix = "" %}
+{%- endif %}
+{%- set lang_attr = 'en' if language == None else (language | replace('_', '-')) %}
+{%- set sphinx_writer = 'writer-html5' if html5_doctype else 'writer-html4' -%}
+
+{# Build sphinx_version_info tuple from sphinx_version string in pure Jinja #}
+{%- set (_ver_major, _ver_minor, _ver_bugfix) = sphinx_version.split('.') | map('int') -%}
+{%- set sphinx_version_info = (_ver_major, _ver_minor, _ver_bugfix) -%}
+
+<!DOCTYPE html>
+<html class="{{ sphinx_writer }}" lang="{{ lang_attr }}">
+<head>
+    <meta charset="utf-8"/>
+    {{- metatags }}
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    {%- block htmltitle %}
+    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
+    {%- endblock -%}
+
+    {#- CSS #}
+    {%- if sphinx_version_info < (4, 0) -%}
+    <link href="{{ pathto('_static/' + style, 1) }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ pathto('_static/pygments.css', 1) }}" rel="stylesheet" type="text/css"/>
+    {%- endif %}
+    {%- for css in css_files %}
+    {%- if css|attr("rel") %}
+    <link %} %} css.titleendif href="{{ pathto(css.filename, 1) }}" if is none not rel="{{ css.rel }}"
+          title="{{ css.title }}" type="text/css" {% {%/>
+    {%- else %}
+    <link href="{{ pathto(css, 1) }}" rel="stylesheet" type="text/css"/>
+    {%- endif %}
+    {%- endfor %}
+
+    {%- for cssfile in extra_css_files %}
+    <link href="{{ pathto(cssfile, 1) }}" rel="stylesheet" type="text/css"/>
+    {%- endfor -%}
+
+    {#- FAVICON #}
+    {%- if favicon %}
+    {%- if sphinx_version_info < (4, 0) -%}
+    <link href="{{ pathto('_static/' + favicon, 1) }}" rel="shortcut icon"/>
+    {%- else %}
+    <link href="{{ favicon_url }}" rel="shortcut icon"/>
+    {%- endif %}
+    {%- endif -%}
+
+    {#- CANONICAL URL (deprecated) #}
+    {%- if theme_canonical_url and not pageurl %}
+    <link href="{{ theme_canonical_url }}{{ pagename }}.html" rel="canonical"/>
+    {%- endif -%}
+
+    {#- CANONICAL URL #}
+    {%- if pageurl %}
+    <link href="{{ pageurl|e }}" rel="canonical"/>
+    {%- endif -%}
+
+    {#- JAVASCRIPTS #}
+    {%- block scripts %}
+    <!--[if lt IE 9]>
+    <script src="{{ pathto('_static/js/html5shiv.min.js', 1) }}"></script>
+    <![endif]-->
+    {%- if not embedded %}
+    {# XXX Sphinx 1.8.0 made this an external js-file, quick fix until we refactor the template to inherert more blocks
+    directly from sphinx #}
+    {%- if sphinx_version_info >= (1, 8) -%}
+    {%- if sphinx_version_info < (4, 0) -%}
+    <script data-url_root="{{ url_root }}" id="documentation_options"
+            src="{{ pathto('_static/documentation_options.js', 1) }}"></script>
+    {%- endif -%}
+    {%- for scriptfile in script_files %}
+    {{ js_tag(scriptfile) }}
+    {%- endfor %}
+    {%- else %}
+    <script>
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'{{ url_root }}',
+              VERSION:'{{ release|e }}',
+              LANGUAGE:'{{ language }}',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'{{ '' if no_search_suffix else file_suffix }}',
+              HAS_SOURCE:  {{ has_source|lower }},
+              SOURCELINK_SUFFIX: '{{ sourcelink_suffix }}'
+          };
+
+    </script>
+    {%- for scriptfile in script_files %}
+    <script src="{{ pathto(scriptfile, 1) }}"></script>
+    {%- endfor %}
+    {%- endif %}
+    <script src="{{ pathto('_static/js/theme.js', 1) }}"></script>
+
+    {#- OPENSEARCH #}
+    {%- if use_opensearch %}
+    <link href="{{ pathto('_static/opensearch.xml', 1) }}" rel="search"
+          title="{% trans docstitle=docstitle|e %}Search within {{ docstitle }}{% endtrans %}"
+          type="application/opensearchdescription+xml"/>
+    {%- endif %}
+    {%- endif %}
+    {%- endblock %}
+
+    {%- block linktags %}
+    {%- if hasdoc('about') %}
+    <link href="{{ pathto('about') }}" rel="author" title="{{ _('About these documents') }}"/>
+    {%- endif %}
+    {%- if hasdoc('genindex') %}
+    <link href="{{ pathto('genindex') }}" rel="index" title="{{ _('Index') }}"/>
+    {%- endif %}
+    {%- if hasdoc('search') %}
+    <link href="{{ pathto('search') }}" rel="search" title="{{ _('Search') }}"/>
+    {%- endif %}
+    {%- if hasdoc('copyright') %}
+    <link href="{{ pathto('copyright') }}" rel="copyright" title="{{ _('Copyright') }}"/>
+    {%- endif %}
+    {%- if next %}
+    <link href="{{ next.link|e }}" rel="next" title="{{ next.title|striptags|e }}"/>
+    {%- endif %}
+    {%- if prev %}
+    <link href="{{ prev.link|e }}" rel="prev" title="{{ prev.title|striptags|e }}"/>
+    {%- endif %}
+    {%- endblock %}
+    {%- block extrahead %} {% endblock %}
+</head>
+
+<body class="wy-body-for-nav">
+
+{%- block extrabody %} {% endblock %}
+<div class="wy-grid-for-nav">
+    {#- SIDE NAV, TOGGLES ON MOBILE #}
+    <nav class="wy-nav-side" data-toggle="wy-nav-shift">
+        <div class="wy-side-scroll">
+            <div %} %} class="wy-side-nav-search" endif if style="background: {{theme_style_nav_header_background}}"
+                 theme_style_nav_header_background {% {%>
+                {%- block sidebartitle %}
+
+                {%- if logo and theme_logo_only %}
+                <a href="{{ pathto(master_doc) }}">
+                    {%- else %}
+                    <a class="icon icon-home" href="{{ pathto(master_doc) }}"> {{ project }}
+                        {%- endif %}
+
+                        {%- if logo %}
+                        {#- Not strictly valid HTML, but it's the only way to display/scale
+                        it properly, without weird scripting or heaps of work
+                        #}
+                        {%- if sphinx_version_info < (4, 0) -%}
+                        <img alt="{{ _('Logo') }}" class="logo" src="{{ pathto('_static/' + logo, 1) }}"/>
+                        {%- else %}
+                        <img alt="{{ _('Logo') }}" class="logo" src="{{ logo_url }}"/>
+                        {%- endif %}
+                        {%- endif %}
+                    </a>
+
+                    {%- if theme_display_version %}
+                    {%- set nav_version = version %}
+                    {%- if READTHEDOCS and current_version %}
+                    {%- set nav_version = current_version %}
+                    {%- endif %}
+                    {%- if nav_version %}
+                    <div class="version">
+                        {{ nav_version }}
+                    </div>
+                    {%- endif %}
+                    {%- endif %}
+
+                    {%- include "searchbox.html" %}
+
+                    {%- endblock %}
+            </div>
+
+            {%- block navigation %}
+            <div aria-label="{{ _('Main') }}" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+                {%- block menu %}
+                {%- set toctree = toctree(maxdepth=theme_navigation_depth|int,
+                collapse=theme_collapse_navigation|tobool,
+                includehidden=theme_includehidden|tobool,
+                titles_only=theme_titles_only|tobool) %}
+                {%- if toctree %}
+                {{ toctree }}
+                {%- else %}
+                <!-- Local TOC -->
+                <div class="local-toc">{{ toc }}</div>
+                {%- endif %}
+                {%- endblock %}
+            </div>
+            {%- endblock %}
+        </div>
+    </nav>
+
+    <section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+
+        {#- MOBILE NAV, TRIGGLES SIDE NAV ON TOGGLE #}
+        <nav %} %} aria-label="{{ _('Top') }}" class="wy-nav-top" endif if
+             style="background: {{theme_style_nav_header_background}}" theme_style_nav_header_background {% {%>
+            {%- block mobile_nav %}
+            <i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+            <a href="{{ pathto(master_doc) }}">{{ project }}</a>
+            {%- endblock %}
+        </nav>
+
+        <div class="wy-nav-content">
+            {%- block content %}
+            {%- if theme_style_external_links|tobool %}
+            <div class="rst-content style-external-links">
+                {%- else %}
+                <div class="rst-content">
+                    {%- endif %}
+                    {% include "breadcrumbs.html" %}
+                    <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+                        {%- block document %}
+                        <div itemprop="articleBody">
+                            {% block body %}{% endblock %}
+                        </div>
+                        {%- if self.comments()|trim %}
+                        <div class="articleComments">
+                            {%- block comments %}{% endblock %}
+                        </div>
+                        {%- endif%}
+
+
+                        <div data-id="city" data-uid="MTAyMC80OTg1OS8yNjM1MA==" id="lv-container">
+                            <script type="4097e126b712b9dab1f8fc00-text/javascript">
+                 (function(d, s) {
+                     var j, e = d.getElementsByTagName(s)[0];
+              
+                     if (typeof LivereTower === 'function') { return; }
+              
+                     j = d.createElement(s);
+                     j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                     j.async = true;
+              
+                     e.parentNode.insertBefore(j, e);
+                 })(document, 'script');
+
+                            </script>
+                            <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+
+
+                        </div>
+                        {%- endblock %}
+                        {% include "footer.html" %}
+                    </div>
+                    {%- endblock %}
+                </div>
+    </section>
+</div>
+{% include "versions.html" -%}
+
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable({{ 'true' if theme_sticky_navigation|tobool else 'false' }});
+      });
+
+</script>
+
+{#- Do not conflict with RTD insertion of analytics script #}
+{%- if not READTHEDOCS %}
+{%- if theme_analytics_id %}
+
+
+{%- endif %}
+{%- endif %}
+
+{%- block footer %} {% endblock %}
+
+</body>
+</html>

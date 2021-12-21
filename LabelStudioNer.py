@@ -10,24 +10,21 @@ Label Studio解析为ner数据集
 import json
 import os
 import random
+from pprint import pprint
 
-import pandas as pd
 import torch
 # https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
-from torch.utils.data import random_split, TensorDataset
-from pprint import pprint
+from torch.utils.data import TensorDataset, random_split
+from tqdm.auto import tqdm
 
 from config import *
-from libs import AutoClear
-import tkitJson
-import json
-from tqdm.auto import tqdm
-import numpy as np
+from tkitDatasetEx import AutoClear
+
 # 输出目录
 path = "out"
 MAX_LENGTH = 512
-FAKE_NUM=1
+FAKE_NUM = 1
 print("""
 seq2seq模式数据集
 数据参考示例

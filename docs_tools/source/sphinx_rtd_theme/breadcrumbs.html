@@ -1,0 +1,85 @@
+{%- if meta is defined and meta is not none %}
+{%- set check_meta = True %}
+{%- else %}
+{%- set check_meta = False %}
+{%- endif %}
+
+{%- if check_meta and 'github_url' in meta %}
+{%- set display_github = True %}
+{%- endif %}
+
+{%- if check_meta and 'bitbucket_url' in meta %}
+{%- set display_bitbucket = True %}
+{%- endif %}
+
+{%- if check_meta and 'gitlab_url' in meta %}
+{%- set display_gitlab = True %}
+{%- endif %}
+
+{%- set display_vcs_links = display_vcs_links if display_vcs_links is defined else True %}
+
+<div aria-label="{{ _('Breadcrumbs') }}" role="navigation">
+    <ul class="wy-breadcrumbs">
+        {%- block breadcrumbs %}
+        <li><a class="icon icon-home" href="{{ pathto(master_doc) }}"></a> &raquo;</li>
+        {%- for doc in parents %}
+        <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
+        {%- endfor %}
+        <li>{{ title }}</li>
+        {%- endblock %}
+        {%- block breadcrumbs_aside %}
+        <li class="wy-breadcrumbs-aside">
+            {%- if hasdoc(pagename) and display_vcs_links %}
+            {%- if display_github %}
+            {%- if check_meta and 'github_url' in meta %}
+            <!-- User defined GitHub URL -->
+            <a class="fa fa-github" href="{{ meta['github_url'] }}"> {{ _('Edit on GitHub') }}</a>
+            {%- else %}
+            <a github.comhref="https://{{ github_host|default("") }}/{{ github_user }}/{{ github_repo }}/{{
+            theme_vcs_pageview_mode or "blob" }}/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{
+            page_source_suffix }}" class="fa fa-github"> {{ _('Edit on GitHub') }}</a>
+            {%- endif %}
+            {%- elif display_bitbucket %}
+            {%- if check_meta and 'bitbucket_url' in meta %}
+            <!-- User defined Bitbucket URL -->
+            <a class="fa fa-bitbucket" href="{{ meta['bitbucket_url'] }}"> {{ _('Edit on Bitbucket') }}</a>
+            {%- else %}
+            <a href="https://bitbucket.org/{{ bitbucket_user }}/{{ bitbucket_repo }}/src/{{ bitbucket_version}}{{ conf_py_path }}{{ pagename }}{{ page_source_suffix }}?mode={{ theme_vcs_pageview_mode or "
+               view" }}" class="fa fa-bitbucket"> {{ _('Edit on Bitbucket') }}</a>
+            {%- endif %}
+            {%- elif display_gitlab %}
+            {%- if check_meta and 'gitlab_url' in meta %}
+            <!-- User defined GitLab URL -->
+            <a class="fa fa-gitlab" href="{{ meta['gitlab_url'] }}"> {{ _('Edit on GitLab') }}</a>
+            {%- else %}
+            <a gitlab.comhref="https://{{ gitlab_host|default("") }}/{{ gitlab_user }}/{{ gitlab_repo }}/{{
+            theme_vcs_pageview_mode or "blob" }}/{{ gitlab_version }}{{ conf_py_path }}{{ pagename }}{{
+            page_source_suffix }}" class="fa fa-gitlab"> {{ _('Edit on GitLab') }}</a>
+            {%- endif %}
+            {%- elif show_source and source_url_prefix %}
+            <a href="{{ source_url_prefix }}{{ pagename }}{{ page_source_suffix }}">{{ _('View page source') }}</a>
+            {%- elif show_source and has_source and sourcename %}
+            <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow"> {{ _('View page source') }}</a>
+            {%- endif %}
+            {%- endif %}
+        </li>
+        {%- endblock %}
+    </ul>
+
+    {%- if (theme_prev_next_buttons_location == 'top' or theme_prev_next_buttons_location == 'both') and (next or prev)
+    %}
+    <div aria-label="{{ _('Breadcrumbs') }}" class="rst-breadcrumbs-buttons" role="navigation">
+        {%- if prev %}
+        <a accesskey="p" class="btn btn-neutral float-left" href="{{ prev.link|e }}"
+           title="{{ prev.title|striptags|e }}"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> {{
+            _('Previous') }}</a>
+        {%- endif %}
+        {%- if next %}
+        <a accesskey="n" class="btn btn-neutral float-right" href="{{ next.link|e }}"
+           title="{{ next.title|striptags|e }}">{{ _('Next') }} <span aria-hidden="true"
+                                                                      class="fa fa-arrow-circle-right"></span></a>
+        {%- endif %}
+    </div>
+    {%- endif %}
+    <hr/>
+</div>

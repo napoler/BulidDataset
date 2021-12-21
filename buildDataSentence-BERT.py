@@ -17,10 +17,10 @@ import sys
 import pandas as pd
 import torch
 from sklearn import preprocessing
-from torch.utils.data import random_split, TensorDataset
+from torch.utils.data import TensorDataset, random_split
 
 from config import *
-from libs.fun import NpEncoder
+from tkitDatasetEx.fun import NpEncoder
 
 # 输出目录
 path = "out"

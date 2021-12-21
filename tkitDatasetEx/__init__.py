@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 """
 作者：　terrychan
@@ -7,8 +6,6 @@ Blog: https://terrychan.org
 
 """
 
-if __name__ == '__main__':
-    pass
-=======
 from .AutoClear import AutoClear
->>>>>>> labelst
+from .BIO import *
+from .fun import *
