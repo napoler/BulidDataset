@@ -42,7 +42,7 @@ dataDemo/label-studiov09
 """)
 # 输出目录
 path = "out"
-MAX_LENGTH = 2048
+MAX_LENGTH = 1024
 
 try:
     os.makedirs(path)
