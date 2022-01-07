@@ -67,8 +67,8 @@ if dataFile:
 # dataA = df.iloc[:, [0]].squeeze().values.tolist()
 # dataB = df.iloc[:, [1]].squeeze().values.tolist()
 # labels = df.iloc[:, [2]].squeeze().values.tolist()
-dataA = df["sent1"].squeeze().astype(str).lower().values.tolist()
-dataB = df["sent2"].squeeze().astype(str).lower().values.tolist()
+dataA = df["sent1"].squeeze().str.lower().astype(str).values.tolist()
+dataB = df["sent2"].squeeze().str.lower().astype(str).values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
 # print(dataLabel)
 # 获取label标签
