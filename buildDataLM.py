@@ -12,6 +12,7 @@ dataDemo/LM.csv
 使用from tkitAutoMask import autoMask包来实现动态mask
 
 """
+import os
 import sys
 
 import pandas as pd
