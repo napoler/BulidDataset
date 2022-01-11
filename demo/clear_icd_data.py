@@ -12,7 +12,7 @@ clear data
 df = pd.read_csv("../data/icd_pre/etl_diagnosis.csv")
 df2 = pd.read_csv("../data/icd_pre/诊断合集无处理.csv")
 df3 = pd.read_csv("../data/icd_pre/icd_data_more.csv")
-print(df)
+# print(df)
 # 去除重复
 
 # new_df=df["sent"]
