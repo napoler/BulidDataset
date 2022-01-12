@@ -24,7 +24,7 @@ from tkitDatasetEx.fun import NpEncoder
 
 # 输出目录
 path = "out"
-MAX_LENGTH = 128
+MAX_LENGTH = 64
 
 print("""
 Sentence-BERT模式数据集
