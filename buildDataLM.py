@@ -23,7 +23,7 @@ from config import *
 
 # 输出目录
 path = "out"
-MAX_LENGTH = 128
+MAX_LENGTH = 64
 
 print("""
 seq2seq模式数据集
