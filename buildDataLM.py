@@ -12,11 +12,12 @@ dataDemo/LM.csv
 使用from tkitAutoMask import autoMask包来实现动态mask
 
 """
+import os
 import sys
 
 import pandas as pd
 import torch
-from torch.utils.data import random_split, TensorDataset
+from torch.utils.data import TensorDataset, random_split
 
 from config import *
 
@@ -43,17 +44,15 @@ print(df)
 dataA = df.iloc[:, [0]].squeeze().astype(str).values.tolist()
 
 inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
+# print(inputsA)
+train_dataset = TensorDataset(inputsA['input_ids'], inputsA['token_type_ids'], inputsA['attention_mask'])
 
-traindataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'],
-
-                             )
-
-fullLen = len(traindataset)
+fullLen = len(train_dataset)
 trainLen = int(fullLen * 0.7)
 valLen = int(fullLen * 0.15)
 testLen = fullLen - trainLen - valLen
-
-train, val, test = random_split(traindataset, [trainLen, valLen, testLen])
+# print(fullLen)
+train, val, test = random_split(train_dataset, [trainLen, valLen, testLen])
 
 try:
     os.makedirs(path)
