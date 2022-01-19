@@ -38,15 +38,15 @@ else:
 
 if dataFile:
     df = pd.read_csv(dataFile)
-    df.drop_duplicates()
+    # df.drop_duplicates()
 print("数据集格式如下：")
 print(df)
 dataA = df.iloc[:, [0]].squeeze().astype(str).values.tolist()
 
 inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 # print(inputsA)
-train_dataset = TensorDataset(inputsA['input_ids'], inputsA['token_type_ids'], inputsA['attention_mask'])
-
+# train_dataset = TensorDataset(inputsA['input_ids'], inputsA['token_type_ids'], inputsA['attention_mask'])
+train_dataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'])
 fullLen = len(train_dataset)
 trainLen = int(fullLen * 0.7)
 valLen = int(fullLen * 0.15)
