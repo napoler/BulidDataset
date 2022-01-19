@@ -24,7 +24,7 @@ from tkitDatasetEx.fun import NpEncoder
 
 # 输出目录
 path = "out"
-MAX_LENGTH = 128
+MAX_LENGTH = 64
 
 print("""
 Sentence-BERT模式数据集
@@ -67,8 +67,8 @@ if dataFile:
 # dataA = df.iloc[:, [0]].squeeze().values.tolist()
 # dataB = df.iloc[:, [1]].squeeze().values.tolist()
 # labels = df.iloc[:, [2]].squeeze().values.tolist()
-dataA = df["sent1"].squeeze().astype(str).values.tolist()
-dataB = df["sent2"].squeeze().astype(str).values.tolist()
+dataA = df["sent1"].squeeze().str.lower().astype(str).values.tolist()
+dataB = df["sent2"].squeeze().str.lower().astype(str).values.tolist()
 dataLabel = df["label"].squeeze().values.tolist()
 # print(dataLabel)
 # 获取label标签

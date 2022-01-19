@@ -4,9 +4,8 @@
 Blog: https://terrychan.org
 # 说明：
 自动构建数据集 预处理使用
-buildDataBertSequencePair模式数据集
-数据参考示例
-dataDemo/Sentence-BERT.csv
+
+label studio v0.9 data ner pre
 
 
 
@@ -20,24 +19,30 @@ import numpy
 import torch
 # https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
 from sklearn import preprocessing
-from torch.utils.data import TensorDataset, random_split
+from torch.utils.data import random_split, TensorDataset
 from transformers import BertTokenizerFast
-from tkitDatasetEx.AutoClear import AutoClear
-from tkitDatasetEx.fun import NpEncoder
 
-tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True,model_max_length=1000000,)
+from tkitDatasetEx.fun import NpEncoder
+from tkitDatasetEx.AutoClear import AutoClear
+from tkitDatasetEx.readData import readDir
+
+tokenizer = BertTokenizerFast.from_pretrained("tokenizer", do_basic_tokenize=True, model_max_length=1000000, )
+
+print("tokenizer", tokenizer)
+
+# 初始化自动修正
 apos = AutoClear(tokenizer=tokenizer)
 print("""
 自动构建数据集 预处理使用
 BIEO模式数据集
 数据参考示例
-dataDemo/label-studio-ner.json
+dataDemo/label-studiov09
 
 
 """)
 # 输出目录
 path = "out"
-MAX_LENGTH = 128
+MAX_LENGTH = 1024
 
 try:
     os.makedirs(path)
@@ -47,7 +52,7 @@ if len(sys.argv) > 1:
     dataFile = sys.argv[1]
     MAX_LENGTH = sys.argv[2]
 else:
-    dataFile = input("数据集地址：")
+    dataFile = input("数据集 ：")
 
 try:
     if MAX_LENGTH is None:
@@ -76,47 +81,47 @@ def one(item):
     # text=item["annotations"]["text"]
     # print(item.keys())
     # print(item['data']['text'])
-    text = item['data']['text']
+
+    text = item['text']
     text = apos.clearText(text)
     # tags = ["O"] * len(text)
     tags = ["O"] * MAX_LENGTH
-    for it in item["annotations"]:
-        # print(it['result'])
-        for i, iit in enumerate(it['result']):
-            # print(i, iit)
-            if iit['type'] == "labels":
-                for iii in range(iit['value']['start'], iit['value']['end']):
-                    if iii == iit['value']['start']:
-                        tags[iii + 1] = "B-" + iit['value']['labels'][0]
-                    elif iii == iit['value']['end'] - 1:
-                        tags[iii + 1] = "E-" + iit['value']['labels'][0]
-                    else:
-                        tags[iii + 1] = "I-" + iit['value']['labels'][0]
+    # print(it['result'])
+    if it.get('label') ==None:
+        return [],[]
+    for i, iit in enumerate(it.get('label')):
+        # print(i, iit)
 
+        for iii in range(iit['start'], iit['end']):
+            if iii > MAX_LENGTH + 1 or iit['start'] > MAX_LENGTH:
+                continue
+            # print(iii,iit)
+            try:
+                if iii == iit['start']:
+                    tags[iii + 1] = "B-" + iit['labels'][0]
+                elif iii == iit['end'] - 1:
+                    tags[iii + 1] = "E-" + iit['labels'][0]
+                else:
+                    tags[iii + 1] = "I-" + iit['labels'][0]
+            except:
+                print(" error pass")
+                pass
     # print(tags)
     words = list(text)
     words = apos.clearTextDec(words)
-    # for i, (w, t) in enumerate(zip(words, tags)):
-    #     # print(w,t)
-    #     if w in [" ", "\t"]:
-    #         words[i] = "[PAD]"
-    #     elif w in ["\n", "\r"]:
-    #         words[i] = "[SEP]"
-
     return words, tags
 
 
 datas = {"labels": [], "text": [], "tags": [], "tags_ids": [], "words": []}
 if dataFile:
-    with open(dataFile, "r", encoding="utf-8") as f:
-        data = json.load(f)
-        for i, it in enumerate(data):
-            # print(it)
-            words, tags = one(it)
+    for i, it in enumerate(readDir(dataFile)):
+        # print(it)
+        words, tags = one(it)
+        if len(words) and len(tags)>0:
             datas['words'].append(words)
             datas['tags'].append(tags)
-            # print(words,tags)
-            # break
+        # print(words,tags)
+        # break
 
 # print(datas)
 

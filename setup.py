@@ -73,6 +73,7 @@ setup(
         'regex==2021.10.8',
         'pkuseg>=0.0.25',
         'transformers==4.12.5',
+        'scikit-learn>=1.0.1',
 
     ],
     packages=['tkitDatasetEx'],
