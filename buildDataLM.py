@@ -38,6 +38,7 @@ else:
 
 if dataFile:
     df = pd.read_csv(dataFile)
+    # 去重复
     # df.drop_duplicates()
 print("数据集格式如下：")
 print(df)
