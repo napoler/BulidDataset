@@ -48,11 +48,11 @@ class AutoClear:
         # x = re.sub(r'[]', '℃', x)
         x = re.sub(r"&nbsp", "", x)
 
-        E_pun = u',.!?[]()<>"\''
-        C_pun = u'，。！？【】（）《》“‘'
+#         E_pun = u',.!?[]()<>"\''
+#         C_pun = u'，。！？【】（）《》“‘'
 
-        table = {ord(f): ord(t) for f, t in zip(C_pun, E_pun)}
-        x = x.translate(table)
+#         table = {ord(f): ord(t) for f, t in zip(C_pun, E_pun)}
+#         x = x.translate(table)
         x = x.replace("“", '"').replace("”", '"').replace("‘", "'").replace("’", "'")
         return x
 
