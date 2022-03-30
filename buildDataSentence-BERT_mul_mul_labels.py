@@ -137,8 +137,8 @@ for idx, data in tqdm(df.iterrows()):
     dataA = dataA + items['sent1']
     dataB = dataB + items['sent2']
     tgt = tgt + items['label']
-    if idx > 10:
-        break
+    # if idx > 10:
+    #     break
     pass
 
 exit()
