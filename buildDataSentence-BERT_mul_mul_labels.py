@@ -14,10 +14,12 @@ import json
 import os
 import sys
 
+import numpy as np
 import pandas as pd
 import torch
 from sklearn import preprocessing
 from torch.utils.data import TensorDataset, random_split
+from tqdm.auto import tqdm
 
 from config import *
 # 输出目录
@@ -25,6 +27,7 @@ from tkitDatasetEx import NpEncoder
 
 path = "out"
 MAX_LENGTH = 64
+# /home/terry/PycharmProjects/auto_Icd_model/data/icd_data/out/data_mul_mini.csv
 
 print("""
 Sentence-BERT模式数据集
@@ -81,6 +84,64 @@ tgt = le.transform(dataLabel)
 
 print("labels", labels)
 print("labels len：", len(labels))
+
+df["sent1"] = dataA
+df["sent2"] = dataB
+df["label"] = tgt
+
+print(df)
+
+
+def auto_data(df, idx):
+    items = {
+        "sent1": [],
+        "sent2": [],
+        "label": []
+    }
+    for index in range(2):
+        max_num = df.shape[0]
+        num_list = list(range(max_num))
+        idxs = np.random.randint(0, max_num, size=index)
+        # print([num_list[i] for i in idxs])
+        r_list = [num_list[i] for i in idxs]
+        r_list.append(idx)
+        # print(r_list)
+        item = {
+            "sent1": [],
+            "sent2": [],
+            "label": []
+        }
+        for i in r_list:
+            # print(df.loc[i])
+            row = df.loc[i]
+            # print(row)
+            item['sent1'].append(row['sent1'])
+            item['sent2'].append(row['sent2'])
+            item['label'].append(row['label'])
+        # print(item)
+        items['sent1'].append("".join(item['sent1']))
+        items['sent2'].append("".join(item['sent2']))
+        label = item['label'] + [1599] * 3
+        items['label'].append(label[:3])
+    return items
+
+
+dataA = []
+dataB = []
+tgt = []
+for idx, data in tqdm(df.iterrows()):
+    # print(data)
+    items = auto_data(df, idx)
+    # print(items)
+    # df.loc['1']
+    dataA = dataA + items['sent1']
+    dataB = dataB + items['sent2']
+    tgt = tgt + items['label']
+    if idx > 10:
+        break
+    pass
+
+exit()
 
 tgt = torch.Tensor(tgt)
 
