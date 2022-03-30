@@ -10,6 +10,7 @@ Sentence-BERT模式数据集
 dataDemo/Sentence-BERT.csv
 
 """
+import csv
 import json
 import os
 import sys
@@ -93,11 +94,6 @@ print(df)
 
 
 def auto_data(df, idx):
-    items = {
-        "sent1": [],
-        "sent2": [],
-        "label": []
-    }
     for index in range(2):
         max_num = df.shape[0]
         num_list = list(range(max_num))
@@ -119,31 +115,49 @@ def auto_data(df, idx):
             item['sent2'].append(row['sent2'])
             item['label'].append(row['label'])
         # print(item)
-        items['sent1'].append("".join(item['sent1']))
-        items['sent2'].append("".join(item['sent2']))
+        items = {"sent1": "", "sent2": "", "label": [], 'sent1': "".join(item['sent1']),
+                 'sent2': "".join(item['sent2'])}
         label = item['label'] + [1599] * 3
-        items['label'].append(label[:3])
-    return items
+        items['label'] = label[:3]
+        yield items
+    # return items
 
 
 dataA = []
 dataB = []
 tgt = []
-for idx, data in tqdm(df.iterrows()):
-    # print(data)
-    items = auto_data(df, idx)
-    # print(items)
-    # df.loc['1']
-    dataA = dataA + items['sent1']
-    dataB = dataB + items['sent2']
-    tgt = tgt + items['label']
-    # if idx > 10:
-    #     break
-    pass
 
-exit()
+with open(path + "/data.csv", "w") as f:
+    w = csv.DictWriter(f, fieldnames=["sent1", "sent2", "label"])
+    w.writeheader()
+    for idx, data in tqdm(df.iterrows()):
+        # print(data)
+        for items in auto_data(df, idx):
+            # print(items)
+            # df.loc['1']
+            # dataA = dataA + items['sent1']
+            # dataB = dataB + items['sent2']
+            # tgt = tgt + items['label']
+            w.writerow(items)
+            dataA.append(items['sent1'])
+            dataB.append(items['sent2'])
+            tgt.append(items['label'])
 
-tgt = torch.Tensor(tgt)
+        # if idx > 10:
+        #     break
+        pass
+
+df = pd.read_csv(path + "/data.csv")
+print(df)
+# #
+# # exit()
+#
+# dataA = df["sent1"].squeeze().str.lower().astype(str).values.tolist()
+# dataB = df["sent2"].squeeze().str.lower().astype(str).values.tolist()
+# tgt = df["label"]
+# .squeeze().values.astype(list).tolist()
+#
+# tgt = torch.Tensor(tgt)
 
 print("inputsA", len(dataA))
 print("dataB", len(dataB))
