@@ -131,7 +131,7 @@ tgt = []
 tgt_num=[]
 
 with open(path + "/data.csv", "w") as f:
-    w = csv.DictWriter(f, fieldnames=["sent1", "sent2", "label"])
+    w = csv.DictWriter(f, fieldnames=["sent1", "sent2", "label","label_num"])
     w.writeheader()
     for idx, data in tqdm(df.iterrows()):
         # print(data)
