@@ -144,7 +144,7 @@ with open(path + "/data.csv", "w") as f:
             dataB.append(items['sent2'])
             tgt.append(items['label'])
 
-        if idx > 100:
+        if idx > 2000:
             break
         pass
 
