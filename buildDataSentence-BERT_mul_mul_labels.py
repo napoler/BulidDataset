@@ -144,8 +144,8 @@ with open(path + "/data.csv", "w") as f:
             dataB.append(items['sent2'])
             tgt.append(items['label'])
 
-        if idx > 2000:
-            break
+        # if idx > 2000:
+        #     break
         pass
 
 df = pd.read_csv(path + "/data.csv")
