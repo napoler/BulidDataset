@@ -106,7 +106,7 @@ def auto_data(df, idx):
         item = {
             "sent1": [],
             "sent2": [],
-            "label": []
+            "label": [],
         }
         for i in r_list:
             # print(df.loc[i])
@@ -116,10 +116,11 @@ def auto_data(df, idx):
             item['sent2'].append(row['sent2'])
             item['label'].append(row['label'])
         # print(item)
-        items = {"sent1": "", "sent2": "", "label": [], 'sent1': "".join(item['sent1']),
-                 'sent2': "".join(item['sent2'])}
-        label = item['label']
-        items['label'] = label[:4]
+        items = {"sent1": "", "sent2": "", "label": item['label'][:4], 'sent1': "".join(item['sent1']),
+                 'sent2': "".join(item['sent2']),"label_num":len(item['label'][:4])}
+        # label = item['label']
+        # items['label'] = label[:4]
+        # items['label_num']=len(items['label'])
         yield items
     # return items
 
@@ -127,6 +128,7 @@ def auto_data(df, idx):
 dataA = []
 dataB = []
 tgt = []
+tgt_num=[]
 
 with open(path + "/data.csv", "w") as f:
     w = csv.DictWriter(f, fieldnames=["sent1", "sent2", "label"])
@@ -143,9 +145,10 @@ with open(path + "/data.csv", "w") as f:
             dataA.append(items['sent1'])
             dataB.append(items['sent2'])
             tgt.append(items['label'])
+            tgt_num.append(items["label_num"])
 
-        # if idx > 2000:
-        #     break
+        if idx > 12000:
+            break
         pass
 
 df = pd.read_csv(path + "/data.csv")
@@ -195,10 +198,12 @@ inputsA = tokenizer(dataA, return_tensors="pt", padding="max_length", max_length
 inputsB = tokenizer(dataB, return_tensors="pt", padding="max_length", max_length=MAX_LENGTH, truncation=True)
 # inputsLabels = torch.Tensor(tgt)
 inputsLabels = torch.Tensor(tgt)
+inputsLabels_num = torch.Tensor(tgt_num)
 # print(inputsA['input_ids'].size())
 traindataset = TensorDataset(inputsA['input_ids'], inputsA['attention_mask'],
                              inputsB['input_ids'], inputsB['attention_mask'],
-                             inputsLabels
+                             inputsLabels,
+                             inputsLabels_num
                              )
 
 fullLen = len(traindataset)
@@ -221,6 +226,18 @@ with open(path + "/labels.json", 'w', encoding="utf-8") as f:
 torch.save(train, path + "/train.pkt")
 torch.save(val, path + "/val.pkt")
 torch.save(test, path + "/test.pkt")
+
+print("classes_",len(mlb.classes_))
+
+
+
+
+
+
+
+
+
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
