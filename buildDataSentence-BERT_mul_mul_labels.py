@@ -20,6 +20,7 @@ import pandas as pd
 import torch
 from sklearn import preprocessing
 from torch.utils.data import TensorDataset, random_split
+from sklearn.preprocessing import MultiLabelBinarizer
 from tqdm.auto import tqdm
 
 from config import *
@@ -117,8 +118,8 @@ def auto_data(df, idx):
         # print(item)
         items = {"sent1": "", "sent2": "", "label": [], 'sent1': "".join(item['sent1']),
                  'sent2': "".join(item['sent2'])}
-        label = item['label'] + [1599] * 3
-        items['label'] = label[:3]
+        label = item['label']
+        items['label'] = label[:4]
         yield items
     # return items
 
@@ -143,12 +144,40 @@ with open(path + "/data.csv", "w") as f:
             dataB.append(items['sent2'])
             tgt.append(items['label'])
 
-        # if idx > 10:
-        #     break
+        if idx > 100:
+            break
         pass
 
 df = pd.read_csv(path + "/data.csv")
 print(df)
+
+
+
+
+# 处理多标签
+
+# https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MultiLabelBinarizer.html
+
+mlb = MultiLabelBinarizer()
+tgt=mlb.fit_transform(tgt)
+mlb.classes_
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # #
 # # exit()
 #
