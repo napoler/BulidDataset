@@ -147,8 +147,8 @@ with open(path + "/data.csv", "w") as f:
             tgt.append(items['label'])
             tgt_num.append(items["label_num"])
 
-        if idx > 12000:
-            break
+        # if idx > 12000:
+        #     break
         pass
 
 df = pd.read_csv(path + "/data.csv")
