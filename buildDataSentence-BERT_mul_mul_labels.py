@@ -94,19 +94,25 @@ df["label"] = tgt
 print(df)
 
 
-def auto_data(df, idx):
+def auto_data(df, idx,max_num_text=3):
     """
+    拼接标签数据
     构建伪造数据
     
     """
-    for index in range(2):
+    # 逐个长度进行构造数据
+    for index in range(max_num_text):
         max_num = df.shape[0]
         num_list = list(range(max_num))
         idxs = np.random.randint(0, max_num, size=index)
         # print([num_list[i] for i in idxs])
         r_list = [num_list[i] for i in idxs]
+
+        
+        # 添加当前数据id
         r_list.append(idx)
-        print(r_list)
+
+        print("r_list",r_list)
         item = {
             "sent1": [],
             "sent2": [],
@@ -140,6 +146,7 @@ with open(path + "/data.csv", "w") as f:
     w.writeheader()
     for idx, data in tqdm(df.iterrows()):
         # print(data)
+        # 基于单条数据构建数据
         for items in auto_data(df, idx):
             # print(items)
             # df.loc['1']
@@ -160,6 +167,8 @@ df = pd.read_csv(path + "/data.csv")
 print(df)
 
 
+
+exit()
 
 
 # 处理多标签
