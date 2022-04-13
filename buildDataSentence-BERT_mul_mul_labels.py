@@ -112,7 +112,7 @@ def auto_data(df, idx,max_num_text=3):
                 # 添加当前数据id
                 r_list.append(idx)
 
-                print("r_list",r_list)
+                # print("r_list",r_list)
                 item = {
                     "sent1": [],
                     "sent2": [],
@@ -140,7 +140,7 @@ def auto_data(df, idx,max_num_text=3):
             # 添加当前数据id
             r_list.append(idx)
 
-            print("r_list",r_list)
+            # print("r_list",r_list)
             item = {
                 "sent1": [],
                 "sent2": [],
@@ -196,7 +196,7 @@ print(df)
 
 
 
-exit()
+# exit()
 
 
 # 处理多标签
