@@ -104,8 +104,36 @@ def auto_data(df, idx,max_num_text=3):
     for index in range(max_num_text):
         max_num = df.shape[0]
         num_list = list(range(max_num))
+        if index >0:
+            for ii in range(5):
+                idxs = np.random.randint(0, max_num, size=index)
+                # print([num_list[i] for i in idxs])
+                r_list = [num_list[i] for i in idxs]
+                # 添加当前数据id
+                r_list.append(idx)
 
-        for ii in range(5):
+                print("r_list",r_list)
+                item = {
+                    "sent1": [],
+                    "sent2": [],
+                    "label": [],
+                }
+                for i in r_list:
+                    # print(df.loc[i])
+                    row = df.loc[i]
+                    # print(row)
+                    item['sent1'].append(row['sent1'])
+                    item['sent2'].append(row['sent2'])
+                    item['label'].append(row['label'])
+                # print(item)
+                items = {"sent1": "", "sent2": "", "label": item['label'][:4], 'sent1': "".join(item['sent1']),
+                        'sent2': "".join(item['sent2']),"label_num":len(item['label'][:4])}
+                # label = item['label']
+                # items['label'] = label[:4]
+                # items['label_num']=len(items['label'])
+                # exit()
+                yield items
+        else:
             idxs = np.random.randint(0, max_num, size=index)
             # print([num_list[i] for i in idxs])
             r_list = [num_list[i] for i in idxs]
@@ -133,7 +161,7 @@ def auto_data(df, idx,max_num_text=3):
             # items['label_num']=len(items['label'])
             # exit()
             yield items
-    # return items
+# return items
 
 
 dataA = []
