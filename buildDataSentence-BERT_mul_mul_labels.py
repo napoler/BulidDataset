@@ -95,6 +95,10 @@ print(df)
 
 
 def auto_data(df, idx):
+    """
+    构建伪造数据
+    
+    """
     for index in range(2):
         max_num = df.shape[0]
         num_list = list(range(max_num))
@@ -102,7 +106,7 @@ def auto_data(df, idx):
         # print([num_list[i] for i in idxs])
         r_list = [num_list[i] for i in idxs]
         r_list.append(idx)
-        # print(r_list)
+        print(r_list)
         item = {
             "sent1": [],
             "sent2": [],
@@ -121,6 +125,7 @@ def auto_data(df, idx):
         # label = item['label']
         # items['label'] = label[:4]
         # items['label_num']=len(items['label'])
+        exit()
         yield items
     # return items
 
