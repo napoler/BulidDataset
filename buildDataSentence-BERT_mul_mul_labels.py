@@ -131,7 +131,7 @@ def auto_data(df, idx,max_num_text=3):
         # label = item['label']
         # items['label'] = label[:4]
         # items['label_num']=len(items['label'])
-        exit()
+        # exit()
         yield items
     # return items
 
